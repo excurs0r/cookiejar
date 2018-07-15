@@ -36,6 +36,11 @@ namespace Slurp.Firefox {
 				print("Error: "+errmsg+"\n");
 			}
 
+			if(nrows == 0) {
+				print("Database is empty\n");
+				return;
+			}
+
 			for(int i=0;i<res.length;i+=ncols) {
 				Cookie cookie = new Cookie();
 				cookie.id = (int)res[i+0];
