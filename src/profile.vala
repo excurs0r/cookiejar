@@ -11,15 +11,15 @@ namespace Slurp.Firefox {
 		protected List<Cookie> cookies;
 
 		public void load_cookies() {
-
-			print("Loading: "+Environment.get_home_dir()+"/.mozilla/firefox/"+path+"/cookies.sqlite\n");
+			string file_path = Environment.get_home_dir()+"/.mozilla/firefox/"+path+"/cookies.sqlite";
+			print("Loading: "+file_path+"\n");
 
 			if(this.name == null || this.path == null || this.name == "" || this.path == "") {
 				return;
 			}
 			
 			Database db;
-			int ec = Database.open(Environment.get_home_dir()+"/.mozilla/firefox/"+path+"/cookies.sqlite", out db);
+			int ec = Database.open(file_path, out db);
 			
 			if(ec != Sqlite.OK) {
 				return;
