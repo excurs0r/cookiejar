@@ -78,5 +78,9 @@ namespace Slurp.Firefox {
 			query += "host LIKE \"%"+search+"%\"";
 			return this.sqlite_query(query);
 		}
+	
+		public string get_info() {
+			return this.name+"\t"+this.path;
+		}
 	}
 }

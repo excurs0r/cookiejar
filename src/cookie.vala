@@ -31,16 +31,19 @@ namespace Slurp.Firefox {
 			return query;
 		}
 
-		public string export_row() {
-			string row = this.id.to_string()+"\t"+this.trim_col(this.host)+"\t"+this.trim_col(this.baseDomain)+"\t"+this.trim_col(this.path)+"\t";
-			row += this.trim_col(this.value)+"\n";
+		public string get_info() {
+			string row = this.trim_col(this.host)+"\t"+this.trim_col(this.baseDomain)+"\t"+this.trim_col(this.path)+"\t";
+			row += this.trim_col(this.value, 10);
 			return row;
 		}
 
-		protected string trim_col(string? content) {
+		protected string trim_col(string? content, int length = 12) {
 			if(content == null) {
 				return "";
-			}	
+			}
+			if(content.length > length) {
+				return content.substring(0,length);
+			}
 			return content;
 		}
 	}
