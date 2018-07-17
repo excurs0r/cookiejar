@@ -10,38 +10,41 @@ namespace Slurp.Firefox {
 
 		protected List<Cookie> cookies;
 
-		public void load_cookies() {
-			string file_path = Environment.get_home_dir()+"/.mozilla/firefox/"+path+"/cookies.sqlite";
-			print("Loading: "+file_path+"\n");
+		public Profile(string name, string path) {
+			this.name = name;
+			this.path = path;
+			this.cookies = new List<Cookie>();
+		}
 
-			if(this.name == null || this.path == null || this.name == "" || this.path == "") {
-				return;
-			}
-			
+		protected List<Cookie> sqlite_query(string query) {
+			string file_path = Environment.get_home_dir()+"/.mozilla/firefox/"+path+"/cookies.sqlite";
+
 			Database db;
 			int ec = Database.open(file_path, out db);
 			
 			if(ec != Sqlite.OK) {
-				return;
+				print("Cannot open database\n");
+				return new List<Cookie>();
 			}
 			
 			string errmsg;
 			string[] res;
 			int nrows, ncols;
 
-			string query = "select * from moz_cookies";
 			ec = db.get_table(query, out res, out nrows, out ncols, out errmsg);
 
 			if(ec != Sqlite.OK) {
 				print("Error: "+errmsg+"\n");
+				return new List<Cookie>();
 			}
 
 			if(nrows == 0) {
-				print("Database is empty\n");
-				return;
+				print("Empty result\n");
+				return new List<Cookie>();
 			}
-
-			for(int i=0;i<res.length;i+=ncols) {
+			
+			List<Cookie> result = new List<Cookie>();
+			for(int i=ncols;i<res.length;i+=ncols) {
 				Cookie cookie = new Cookie();
 				cookie.id = (int)res[i+0];
 				cookie.baseDomain = res[i+1];
@@ -56,17 +59,24 @@ namespace Slurp.Firefox {
 				cookie.isHttpOnly = (int)res[i+10];
 				cookie.inBrowserElement = (int)res[i+11];
 				cookie.sameSite = (int)res[i+12];
-				this.cookies.append(cookie);
+				result.append(cookie);
 			}
-			return;
+			return result;
+
 		}
-		
-		public void get_netflix() {
-			foreach(Cookie cookie in this.cookies) {
-				if(cookie.baseDomain.index_of("netflix") != -1) {
-					print(cookie.export_sql()+"\n");
-				}
-			}
-		} 
+
+		public List<Cookie> get_cookies() {
+			return this.sqlite_query("select * from moz_cookies");
+		}
+
+		public List<Cookie> search(string search) {
+
+			string query = "SELECT * FROM moz_cookies where ";
+			query += "baseDomain LIKE \"%"+search+"%\" OR ";
+			query += "name LIKE \"%"+search+"%\" OR ";
+			query += "value LIKE \"%"+search+"%\" OR ";
+			query += "host LIKE \"%"+search+"%\"";
+			return this.sqlite_query(query);
+		}
 	}
 }

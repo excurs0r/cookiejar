@@ -8,9 +8,14 @@ namespace Slurp.Firefox {
 
 		public Firefox() {
 			this.read_profiles();
-			foreach(Profile profile in this.profiles) {
-				profile.get_netflix();
+		}
+
+		public List<Profile> get_profiles() {
+			var profiles = new List<Profile>();
+			foreach(Profile p in this.profiles) {
+				profiles.append(p);
 			}
+			return profiles;
 		}
 
 		protected void read_profiles() {
@@ -23,9 +28,9 @@ namespace Slurp.Firefox {
 				File profiles_ini = File.new_for_path(profiles_ini_path);
 				DataInputStream stream = new DataInputStream(profiles_ini.read());	
 			
-				Profile profile = new Profile();
-	
-				string line;
+				string name = "";
+				string path = "";
+				string line;	
 				while ((line = stream.read_line (null)) != null) {
 						
 					if(!line.valid_char(5) || line.length < 5) {
@@ -33,14 +38,17 @@ namespace Slurp.Firefox {
 					}
 
 					if(line.substring(0, 4) == "Name") {
-						profile.name = line.substring(5, line.length-5);
+						name = line.substring(5, line.length-5);
 					}
 
 					if(line.substring(0, 4) == "Path") {
-						profile.path = line.substring(5, line.length-5);
-						profile.load_cookies();
-						this.profiles.append(profile);
-						profile = new Profile();
+						path = line.substring(5, line.length-5);
+					}
+
+					if(name != "" && path != "") {
+						this.profiles.append(new Profile(name, path));
+						name = "";
+						path = "";
 					}
 
 				} 

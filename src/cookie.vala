@@ -3,6 +3,7 @@ using GLib;
 namespace Slurp.Firefox {
 	
 	class Cookie : Object {
+
 		public int id;
 		public string baseDomain;
 		public string originAttributes;
@@ -28,6 +29,19 @@ namespace Slurp.Firefox {
 			query += this.isSecure.to_string()+", "+this.isHttpOnly.to_string()+", "+this.inBrowserElement.to_string()+", ";
 			query += this.sameSite.to_string()+")\n\n";
 			return query;
+		}
+
+		public string export_row() {
+			string row = this.id.to_string()+"\t"+this.trim_col(this.host)+"\t"+this.trim_col(this.baseDomain)+"\t"+this.trim_col(this.path)+"\t";
+			row += this.trim_col(this.value)+"\n";
+			return row;
+		}
+
+		protected string trim_col(string? content) {
+			if(content == null) {
+				return "";
+			}	
+			return content;
 		}
 	}
 }
