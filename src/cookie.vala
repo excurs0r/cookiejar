@@ -20,9 +20,9 @@ namespace Slurp.Firefox {
 		public int sameSite;
 
 		public string export_sql() {
-			string query = "insert into moz_cookies \n";
-			query += "(id, baseDomain, originAttributes, name, value, host,";
-			query += "path, expiry, lastAccessed, creationTime, isSecure, isHttpOnly, inBrowserElement, sameSite)\n";
+			string query = "insert into moz_cookies ";
+			query += "(id, baseDomain, originAttributes, name, value, host, ";
+			query += "path, expiry, lastAccessed, creationTime, isSecure, isHttpOnly, inBrowserElement, sameSite) ";
 			query += "values ("+this.id.to_string()+", \""+this.baseDomain+"\", \""+this.originAttributes+"\", \""+this.name+"\", ";
 			query +=  "\""+this.value+"\", \""+this.host+"\", \""+this.path+"\", "+this.expiry.to_string()+", ";
 			query += this.lastAccessed.to_string()+", "+this.creationTime.to_string()+", ";

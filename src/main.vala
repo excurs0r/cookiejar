@@ -31,6 +31,22 @@ namespace Slurp.Firefox {
 				}
 			}
 		}
+		if(args[1] == "search" || args[1] == "export") {
+			var search = args[2];
+			var firefox = new Firefox();
+			var profiles = firefox.get_profiles();
+			print("Host\tBaseDomain\tPath\tValue\n----------------------------------------------\n");
+			foreach(Profile p in profiles) {
+				var cookies = p.search(search);
+				foreach(Cookie c in cookies) {
+					if(args[1] == "search") {
+						print(c.get_info()+"\n");
+					} else {
+						print(c.export_sql()+"\n");
+					}
+				}
+			}
+		}
 		
 		return 0;
 	}
