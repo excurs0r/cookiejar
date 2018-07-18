@@ -2,10 +2,11 @@ using GLib;
 
 namespace Slurp.Firefox {
 
-	public int main(string[] args) {
+		int main(string[] args) {
 		
 		if(args.length < 2) {
-			print("usage: ./chillingo_the_thief <option1> <option2>");
+			print("Commands:\n---------------\ncookiejar list profiles\ncookiejar list cookies\ncookiejar search <someWhat>\n");
+			print("cookiejar export <someWhat> (search and return sql insert query)\n");
 			return 1;
 		}
 
@@ -29,13 +30,19 @@ namespace Slurp.Firefox {
 						print(c.get_info()+"\n");
 					}
 				}
+				return 0;
 			}
+			print("Commands:\n---------------\ncookiejar list profiles\ncookiejar list cookies\ncookiejar search <someWhat>\n");
+			print("cookiejar export <someWhat> (search and return sql insert query)\n");
+			return 0;
 		}
 		if(args[1] == "search" || args[1] == "export") {
 			var search = args[2];
 			var firefox = new Firefox();
 			var profiles = firefox.get_profiles();
-			print("Host\tBaseDomain\tPath\tValue\n----------------------------------------------\n");
+			if(args[1] == "search") {
+				print("Host\tBaseDomain\tPath\tValue\n----------------------------------------------\n");
+			}	
 			foreach(Profile p in profiles) {
 				var cookies = p.search(search);
 				foreach(Cookie c in cookies) {
@@ -46,7 +53,10 @@ namespace Slurp.Firefox {
 					}
 				}
 			}
+			return 0;
 		}
+		print("Commands:\n---------------\ncookiejar list profiles\ncookiejar list cookies\ncookiejar search <someWhat>\n");
+        print("cookiejar export <someWhat> (search and return sql insert query)\n");
 		
 		return 0;
 	}
