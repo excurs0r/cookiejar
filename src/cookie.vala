@@ -32,7 +32,7 @@ namespace Slurp.Firefox {
 		}
 
 		public string get_info() {
-			string row = this.trim_col(this.host)+"\t"+this.trim_col(this.baseDomain)+"\t"+this.trim_col(this.path)+"\t";
+			string row = this.id.to_string()+"\t"+this.trim_col(this.host)+"\t"+this.trim_col(this.baseDomain)+"\t"+this.trim_col(this.path)+"\t";
 			row += this.trim_col(this.value, 10);
 			return row;
 		}

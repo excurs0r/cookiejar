@@ -71,7 +71,7 @@ namespace Slurp.Firefox {
 
 		public List<Cookie> search(string search) {
 
-			string query = "SELECT * FROM moz_cookies where ";
+			string query = "select * from moz_cookies where ";
 			query += "baseDomain LIKE \"%"+search+"%\" OR ";
 			query += "name LIKE \"%"+search+"%\" OR ";
 			query += "value LIKE \"%"+search+"%\" OR ";

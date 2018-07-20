@@ -24,7 +24,7 @@ namespace Slurp.Firefox {
 				var firefox = new Firefox();
 				var profiles = firefox.get_profiles();
 				foreach(Profile p in profiles) {
-					print("Host\tBaseDomain\tPath\tValue\n----------------------------------------------\n");
+					print("ID\t\tHost\t\tBaseDomain\tPath\tValue\n----------------------------------------------\n");
 					var cookies = p.get_cookies();
 					foreach(Cookie c in cookies) {
 						print(c.get_info()+"\n");
@@ -41,7 +41,7 @@ namespace Slurp.Firefox {
 			var firefox = new Firefox();
 			var profiles = firefox.get_profiles();
 			if(args[1] == "search") {
-				print("Host\tBaseDomain\tPath\tValue\n----------------------------------------------\n");
+				print("ID\t\tHost\t\tBaseDomain\tPath\tValue\n----------------------------------------------\n");
 			}	
 			foreach(Profile p in profiles) {
 				var cookies = p.search(search);
