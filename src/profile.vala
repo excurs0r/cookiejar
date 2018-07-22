@@ -1,7 +1,7 @@
 using GLib;
 using Sqlite;
 
-namespace Slurp.Firefox {
+namespace Cookiejar.Firefox {
 
 	class Profile : Object {
 

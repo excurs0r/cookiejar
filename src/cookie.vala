@@ -1,6 +1,6 @@
 using GLib;
 
-namespace Slurp.Firefox {
+namespace Cookiejar.Firefox {
 	
 	class Cookie : Object {
 

@@ -1,4 +1,4 @@
-project('logger', 'vala', 'c')
+project('cookiejar', 'vala', 'c')
 
 gio_dep 	= dependency('gio-2.0')
 sqlite3_dep = dependency('sqlite3')
