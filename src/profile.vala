@@ -46,7 +46,7 @@ namespace Cookiejar.Firefox {
 			List<Cookie> result = new List<Cookie>();
 			for(int i=ncols;i<res.length;i+=ncols) {
 				Cookie cookie = new Cookie();
-				cookie.id = (int)res[i+0];
+				cookie.id = int.parse(res[i]);
 				cookie.baseDomain = res[i+1];
 				cookie.originAttributes = res[i+2];
 				cookie.name = res[i+3];
