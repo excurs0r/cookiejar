@@ -4,20 +4,20 @@ namespace Cookiejar.Firefox {
 	
 	class Cookie : Object {
 
-		public int id;
+		public long id;
 		public string baseDomain;
 		public string originAttributes;
 		public string name;
 		public string value;
 		public string host;
 		public string path;
-		public int expiry;
-		public int lastAccessed;
-		public int creationTime;
-		public int isSecure;
-		public int isHttpOnly;
-		public int inBrowserElement;
-		public int sameSite;
+		public long expiry;
+		public long lastAccessed;
+		public long creationTime;
+		public long isSecure;
+		public long isHttpOnly;
+		public long inBrowserElement;
+		public long sameSite;
 
 		public string export_sql() {
 			string query = "insert into moz_cookies ";
