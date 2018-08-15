@@ -6,8 +6,6 @@ glib_dep 	= dependency('glib-2.0')
 gobject_dep = dependency('gobject-2.0')
 
 
-executable('cookiejar', ['src/main.vala', 'src/firefox.vala', 'src/profile.vala', 'src/cookie.vala'],
+executable('cookiejar', ['src/main.vala', 'src/firefox.vala', 'src/profile.vala', 'src/cookie.vala', 'src/importer.vala', 'src/firefox.vala', 'src/profile.vala'],
 			dependencies : [gio_dep, sqlite3_dep, glib_dep, gobject_dep])
 
-executable('import', ['src/import.vala', 'src/firefox.vala', 'src/profile.vala', 'src/cookie.vala'],
-			dependencies : [gio_dep, sqlite3_dep, glib_dep, gobject_dep])
