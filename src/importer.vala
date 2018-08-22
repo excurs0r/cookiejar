@@ -58,12 +58,13 @@ namespace Cookiejar {
 						// still fill on insert
 						// check if we only found 1 match
 						if(1 == hits.length()) {
-							long cookieId = hits.nth_data(0).lastAccessed;
+							long cookieId = hits.nth_data(0).id;
+							message(cookieId.to_string());
 							ec = this.db.exec("delete from moz_cookies where id = "+cookieId.to_string(), null, out errmsg);
+							
 							if(ec != Sqlite.OK) {
 								message(errmsg);
 							}
-
 							ec = this.db.exec(c.export_sql(), null, out errmsg);
 							if(ec != Sqlite.OK) {
 								message(errmsg);
