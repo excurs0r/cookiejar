@@ -27,52 +27,63 @@ namespace Cookiejar {
 			if(!this.database_available) {
 				return;
 			}
+			int inserts = 0;
 			foreach(Cookie c in this.cookies) {
-				// Try insert
-				int ec = db.exec(c.export_sql());
-				// Try with new id
-				if(ec != Sqlite.OK) {
-					int nrows, ncols;
-					string[] res;
-					string errmsg;
-					ec = db.get_table("select id from moz_cookies order by id desc limit 1", out res, out nrows, out ncols, out errmsg);
-					if(ec != Sqlite.OK) {
-						print("Could not get new id\n");
-						continue;
-					}
-					long id = long.parse(res[1])+1;
-					c.id = id;
-					ec = db.exec(c.export_sql(), null, out errmsg);
-					// Delete old cookie insert new
-					if(ec != Sqlite.OK) {
-						var firefox = new Firefox.Firefox();
-						var profiles = firefox.get_profiles();
-						List<Cookie> hits = new List<Cookie>();
-						foreach(Profile p in profiles) {
-							var tmp = p.find(c);
-							foreach(Cookie x in tmp) {
-								hits.append(x);
-							}
-						}
-						// FIXME: Delete is not working so unique constraints
-						// still fill on insert
-						// check if we only found 1 match
-						if(1 == hits.length()) {
-							long cookieId = hits.nth_data(0).id;
-							message(cookieId.to_string());
-							ec = this.db.exec("delete from moz_cookies where id = "+cookieId.to_string(), null, out errmsg);
-							
-							if(ec != Sqlite.OK) {
-								message(errmsg);
-							}
-							ec = this.db.exec(c.export_sql(), null, out errmsg);
-							if(ec != Sqlite.OK) {
-								message(errmsg);
-							}
-						}
-					}
+				bool success;
+				
+				success = this.insert_cookie(c);
+				if(success) {
+					// FIXME: Always get here. Dunno if it's working right
+					// Will add tests.
+					inserts++;
+					continue;
 				}
-			}			
+				this.set_next_valid_id(out c);
+				success = this.insert_cookie(c);
+				if(success) {
+					inserts++;
+					continue;
+				}
+				
+			}
+			print("Inserts: %d\n", inserts);
+		}
+
+		public bool delete_cookie(Cookie c) {
+			int ec = this.db.exec(c.export_sql());
+			if(ec != Sqlite.OK) {
+				print("Could not insert cookie\n");
+				return false;
+			}
+			return true;
+		}
+
+		public bool insert_cookie(Cookie c) {
+			int ec = this.db.exec("delete from moz_cookies where id = "+c.id.to_string());
+			if(ec != Sqlite.OK) {
+				print("Could not delete cookie\n");
+				return false;
+			}
+			return true;
+		}
+		
+		public void set_next_valid_id(out Cookie c) {
+			if(c == null) {
+				return;
+			}
+			string[] res;
+			string errmsg;
+			int nrows, ncols;
+			int ec = this.db.get_table("select * from moz_cookies order by id desc limit 1", out res, out nrows, out ncols, out errmsg);
+			if(ec != Sqlite.OK) {
+				print(errmsg+"\n");
+				return;
+			}
+			string tmp = res[0];
+			long id = long.parse(tmp); 
+			id++;
+			c.id = id; // next valid unique id
+			return;
 		}
 	}
 }
