@@ -33,8 +33,6 @@ namespace Cookiejar {
 				
 				success = this.insert_cookie(c);
 				if(success) {
-					// FIXME: Always get here. Dunno if it's working right
-					// Will add tests.
 					inserts++;
 					continue;
 				}
@@ -49,7 +47,7 @@ namespace Cookiejar {
 			print("Inserts: %d\n", inserts);
 		}
 
-		public bool delete_cookie(Cookie c) {
+		public bool insert_cookie(Cookie c) {
 			int ec = this.db.exec(c.export_sql());
 			if(ec != Sqlite.OK) {
 				print("Could not insert cookie\n");
@@ -58,7 +56,7 @@ namespace Cookiejar {
 			return true;
 		}
 
-		public bool insert_cookie(Cookie c) {
+		public bool delete_cookie(Cookie c) {
 			int ec = this.db.exec("delete from moz_cookies where id = "+c.id.to_string());
 			if(ec != Sqlite.OK) {
 				print("Could not delete cookie\n");
