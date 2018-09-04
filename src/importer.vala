@@ -36,7 +36,16 @@ namespace Cookiejar {
 					inserts++;
 					continue;
 				}
+				long old_id = c.id;
 				this.set_next_valid_id(ref c);
+				success = this.insert_cookie(c);
+				if(success) {
+					inserts++;
+					continue;
+				}
+
+				c.id = old_id;
+				this.delete_cookie(c);
 				success = this.insert_cookie(c);
 				if(success) {
 					inserts++;
@@ -48,9 +57,11 @@ namespace Cookiejar {
 		}
 
 		public bool insert_cookie(Cookie c) {
-			int ec = this.db.exec(c.export_sql());
+			string errmsg;
+			int ec = this.db.exec(c.export_sql(), null, out errmsg);
 			if(ec != Sqlite.OK) {
 				print("Could not insert cookie\n");
+				print("Error: "+errmsg+"\n");
 				return false;
 			}
 			return true;
