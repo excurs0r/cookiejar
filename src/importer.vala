@@ -38,7 +38,7 @@ namespace Cookiejar {
 					inserts++;
 					continue;
 				}
-				this.set_next_valid_id(out c);
+				this.set_next_valid_id(ref c);
 				success = this.insert_cookie(c);
 				if(success) {
 					inserts++;
@@ -67,7 +67,7 @@ namespace Cookiejar {
 			return true;
 		}
 		
-		public void set_next_valid_id(out Cookie c) {
+		public void set_next_valid_id(ref Cookie c) {
 			if(c == null) {
 				return;
 			}
