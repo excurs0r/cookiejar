@@ -55,33 +55,10 @@ namespace Cookiejar.Firefox {
 			}
 			return 0;
 		}
-		if(args[1] == "import") {
-			if(args.length < 4) {
-				print("usage: cookiejar import target_db searchstring\n");
-				return 0;
-			}
-			string target_db = args[2];
-			string search = args[3];
-
-			var firefox = new Firefox();
-			var profiles = firefox.get_profiles();
-			List<Cookie> cookies_to_import = new List<Cookie>();
-			foreach(Profile p in profiles) {
-				var cookies = p.search(search);
-				foreach(Cookie c in cookies) {
-					cookies_to_import.append(c);
-				}
-			}
-
-			var importer = new Importer(target_db, cookies_to_import);
-			importer.run();
-			return 0;
-
-		}
 		
 		print("Commands:\n---------------\ncookiejar list profiles\ncookiejar list cookies\ncookiejar search <someWhat>\n");
         print("cookiejar export <someWhat> (search and return sql insert query)\n");
 		
 		return 0;
-	}
+	}	
 }			
