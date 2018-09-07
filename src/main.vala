@@ -55,6 +55,7 @@ namespace Cookiejar.Firefox {
 			}
 			return 0;
 		}
+
 		if(args[1] == "import") {
 			if(args.length < 4) {
 				print("usage: cookiejar import target_db searchstring (-d → delete flag)\n");
@@ -86,5 +87,5 @@ namespace Cookiejar.Firefox {
         print("cookiejar export <someWhat> (search and return sql insert query)\n");
 		
 		return 0;
-	}
-}			
+	}	
+}
