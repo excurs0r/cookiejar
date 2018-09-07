@@ -6,9 +6,10 @@ namespace Cookiejar {
 
 	class Importer : Object {
 		
-		protected Database db;		
+		protected Database db;
 		protected List<Cookie> cookies;
 		bool database_available = false;
+		public bool delete_flag = false;
 
 		public Importer(string target_db, List<Cookie> cookies) {
 			int ec = Database.open_v2(target_db, out this.db, Sqlite.OPEN_READWRITE);
@@ -23,13 +24,16 @@ namespace Cookiejar {
 			this.database_available = true;
 		}
 
+		
 		public void run() {
 			if(!this.database_available) {
+				print("No target database specified\n");
 				return;
 			}
+			print("Cookies to insert: %u\n", this.cookies.length());
 			int inserts = 0;
 			foreach(Cookie c in this.cookies) {
-				bool success;
+				bool success = false;
 				
 				success = this.insert_cookie(c);
 				if(success) {
@@ -44,6 +48,10 @@ namespace Cookiejar {
 					continue;
 				}
 
+				if(!this.delete_flag) {
+					continue;
+				}
+
 				c.id = old_id;
 				this.delete_cookie(c);
 				success = this.insert_cookie(c);
@@ -51,6 +59,7 @@ namespace Cookiejar {
 					inserts++;
 					continue;
 				}
+				print("Could not insert cookie\n");
 				
 			}
 			print("Inserts: %d\n", inserts);
@@ -60,8 +69,6 @@ namespace Cookiejar {
 			string errmsg;
 			int ec = this.db.exec(c.export_sql(), null, out errmsg);
 			if(ec != Sqlite.OK) {
-				print("Could not insert cookie\n");
-				print("Error: "+errmsg+"\n");
 				return false;
 			}
 			return true;
@@ -70,7 +77,6 @@ namespace Cookiejar {
 		public bool delete_cookie(Cookie c) {
 			int ec = this.db.exec("delete from moz_cookies where id = "+c.id.to_string());
 			if(ec != Sqlite.OK) {
-				print("Could not delete cookie\n");
 				return false;
 			}
 			return true;
@@ -88,7 +94,7 @@ namespace Cookiejar {
 				print(errmsg+"\n");
 				return;
 			}
-			string tmp = res[0];
+			string tmp = res[14];
 			long id = long.parse(tmp); 
 			id++;
 			c.id = id; // next valid unique id
