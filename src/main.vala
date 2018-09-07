@@ -57,7 +57,7 @@ namespace Cookiejar.Firefox {
 		}
 		if(args[1] == "import") {
 			if(args.length < 4) {
-				print("usage: cookiejar import target_db searchstring\n");
+				print("usage: cookiejar import target_db searchstring (-d → delete flag)\n");
 				return 0;
 			}
 			string target_db = args[2];
@@ -74,6 +74,9 @@ namespace Cookiejar.Firefox {
 			}
 
 			var importer = new Importer(target_db, cookies_to_import);
+			if(args.length > 4 && args[4] == "-d") {
+				importer.delete_flag = true;
+			}
 			importer.run();
 			return 0;
 
