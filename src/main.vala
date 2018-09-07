@@ -80,12 +80,11 @@ namespace Cookiejar.Firefox {
 			}
 			importer.run();
 			return 0;
+		}	
 
-		}
-		
 		print("Commands:\n---------------\ncookiejar list profiles\ncookiejar list cookies\ncookiejar search <someWhat>\n");
         print("cookiejar export <someWhat> (search and return sql insert query)\n");
 		
 		return 0;
 	}	
-}
+}			
