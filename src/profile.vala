@@ -39,7 +39,7 @@ namespace Cookiejar.Firefox {
 			}
 
 			if(nrows == 0) {
-				print("Empty result\n");
+				print("No cookies found in database\n");
 				return new List<Cookie>();
 			}
 			
@@ -98,6 +98,30 @@ namespace Cookiejar.Firefox {
 	
 		public string get_info() {
 			return this.name+"\t"+this.path;
+		}
+
+		public void delete_cookie(string search) {
+			string file_path = Environment.get_home_dir()+"/.mozilla/firefox/"+path+"/cookies.sqlite";
+
+			Database db;
+			int ec = Database.open(file_path, out db);
+			
+			if(ec != Sqlite.OK) {
+				print("Cannot open database\n");
+			}
+			
+			List<Cookie> cookies = this.search(search);
+			int deletes = 0;
+			foreach(Cookie c in cookies) {
+				ec = db.exec("delete from moz_cookies where id = "+c.id.to_string());
+				if(ec != Sqlite.OK) {
+					print("Could not delete cookie\n");
+				} else {
+					deletes++;
+				}
+			}
+			print("Deleted %d cookies\n", deletes);
+			return;
 		}
 	}
 }
