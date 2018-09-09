@@ -80,7 +80,24 @@ namespace Cookiejar.Firefox {
 			}
 			importer.run();
 			return 0;
-		}	
+		}
+	
+
+		if(args[1] == "delete") {
+
+
+			if(args.length < 2) {
+				print("usage: cookiejar delete searchword\n");
+				return 1;
+			}
+
+			var firefox = new Firefox();
+			var profiles = firefox.get_profiles();
+			foreach(Profile p in profiles) {
+				p.delete_cookie(args[2]);
+			}
+			return 0;
+		}
 
 		print("Commands:\n---------------\ncookiejar list profiles\ncookiejar list cookies\ncookiejar search <someWhat>\n");
         print("cookiejar export <someWhat> (search and return sql insert query)\n");
