@@ -1,11 +1,27 @@
 project('cookiejar', 'vala', 'c')
 
-gio_dep 	= dependency('gio-2.0')
-sqlite3_dep = dependency('sqlite3')
-glib_dep 	= dependency('glib-2.0')
-gobject_dep = dependency('gobject-2.0')
+# Installation destination directory
+#DESTDIR=/usr/local
 
+# Dependencies for cookiejar
+cookiejar_deps = [
+	dependency('gio-2.0'),
+	dependency('sqlite3'),
+	dependency('glib-2.0'),
+	dependency('gobject-2.0')
+]
 
-executable('cookiejar', ['src/main.vala', 'src/firefox.vala', 'src/profile.vala', 'src/cookie.vala', 'src/importer.vala', 'src/firefox.vala', 'src/profile.vala'],
-			dependencies : [gio_dep, sqlite3_dep, glib_dep, gobject_dep])
+# Source files
+cookiejar_src = [ 
+	'src/main.vala',
+	'src/firefox.vala',
+	'src/cookie.vala',
+	'src/importer.vala', 
+	'src/firefox.vala',
+	'src/profile.vala'
+]
+
+subdir('tests')
+
+cookiejar = executable('cookiejar', cookiejar_src, dependencies: cookiejar_deps)
 
