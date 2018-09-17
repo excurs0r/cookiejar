@@ -21,7 +21,7 @@ cookiejar_src = [
 	'src/profile.vala'
 ]
 
-subdir('tests')
+#subdir('tests')
 
 cookiejar = executable('cookiejar', cookiejar_src, dependencies: cookiejar_deps)
 
