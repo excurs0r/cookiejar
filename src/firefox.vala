@@ -2,7 +2,7 @@ using GLib;
 
 namespace Cookiejar.Firefox {
 
-	class Firefox : Object {
+	class Firefox : Object, Browser {
 
 		protected List<Profile> profiles;
 
@@ -10,7 +10,7 @@ namespace Cookiejar.Firefox {
 			this.read_profiles();
 		}
 
-		public List<Profile> get_profiles() {
+		public  List<Profile> get_profiles() {
 			var profiles = new List<Profile>();
 			foreach(Profile p in this.profiles) {
 				profiles.append(p);
@@ -18,7 +18,7 @@ namespace Cookiejar.Firefox {
 			return profiles;
 		}
 
-		protected void read_profiles() {
+		protected  void read_profiles() {
 			
 			this.profiles = new List<Profile>();
 			string user_home = Environment.get_home_dir();
