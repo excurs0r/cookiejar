@@ -46,7 +46,7 @@ namespace Cookiejar.Firefox {
 					}
 
 					if(name != "" && path != "") {
-						this.profiles.append(new Profile(name, path));
+						this.profiles.append(new FirefoxProfile(name, path));
 						name = "";
 						path = "";
 					}

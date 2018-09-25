@@ -30,7 +30,8 @@ cookiejar_src = [
 	'src/importer.vala',
 	'src/browser.vala',
 	'src/firefox.vala',
-	'src/profile.vala'
+	'src/profile.vala',
+	'src/firefox_profile.vala'
 ]
 
 executable('cookiejar', cookiejar_src, dependencies: cookiejar_deps)
