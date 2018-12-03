@@ -17,8 +17,17 @@ cookie_test_src = [
 cookie_test = executable('cookie', cookie_test_src, dependencies: cookiejar_deps)
 test('cookie', cookie_test)
 
-
-
+# firefox.vala test
+firefox_test_src = [
+	'src/browser.vala',
+	'src/profile.vala',
+	'src/firefox_profile.vala',
+	'src/cookie.vala',
+	'src/firefox.vala',
+	'tests/firefox.vala'
+]
+firefox_test = executable('firefox', firefox_test_src, dependencies: cookiejar_deps)
+test('firefox', firefox_test, args: ['../tests/resources/profiles.ini'])
 
 
 
