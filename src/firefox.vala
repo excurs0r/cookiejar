@@ -5,9 +5,18 @@ namespace Cookiejar.Firefox {
 	class Firefox : Object, Browser {
 
 		protected List<Profile> profiles;
+		protected string profiles_ini_path;
 
 		public Firefox() {
+			if(this.profiles_ini_path == null) {
+				string user_home = Environment.get_home_dir();
+				this.set_profiles_ini_path(user_home+"/.mozilla/firefox/profiles.ini");
+			}
 			this.read_profiles();
+		}
+
+		public void set_profiles_ini_path(string path) {
+			this.profiles_ini_path = path;
 		}
 
 		public  List<Profile> get_profiles() {
@@ -21,19 +30,18 @@ namespace Cookiejar.Firefox {
 		protected  void read_profiles() {
 			
 			this.profiles = new List<Profile>();
-			string user_home = Environment.get_home_dir();
-			string profiles_ini_path = user_home+"/.mozilla/firefox/profiles.ini";
-			
+						
 			try {
-				File profiles_ini = File.new_for_path(profiles_ini_path);
-				DataInputStream stream = new DataInputStream(profiles_ini.read());	
+				File profiles_ini = File.new_for_path(this.profiles_ini_path);
+				FileInputStream file_stream = profiles_ini.read();
+				DataInputStream stream = new DataInputStream(file_stream);	
 			
 				string name = "";
 				string path = "";
 				string line;	
 				while ((line = stream.read_line (null)) != null) {
-						
-					if(!line.valid_char(5) || line.length < 5) {
+			
+					if(line.length == 0) {
 						continue;
 					}
 
