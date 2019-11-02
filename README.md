@@ -1,4 +1,4 @@
-#cookiejar
+# cookiejar
 
 Cookiejar is build to import and export cookies from your browser.
 Usefull if you want to get netflix from one computer to another.
@@ -39,6 +39,7 @@ cookiejar export <someWhat> (search and return sql insert query)
 
 ## how to copy netflix
 Exporting into sql file: `./cookiejar export netflix > netflix.sql`
+
 And import it: `sqlite3 ~/.mozilla/firefox/[profile]/cookies.sqlite < netflix.sql`
 
 MAGIC \o/
