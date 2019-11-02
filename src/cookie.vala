@@ -27,7 +27,7 @@ namespace Cookiejar.Firefox {
 			query +=  "\""+this.value+"\", \""+this.host+"\", \""+this.path+"\", "+this.expiry.to_string()+", ";
 			query += this.lastAccessed.to_string()+", "+this.creationTime.to_string()+", ";
 			query += this.isSecure.to_string()+", "+this.isHttpOnly.to_string()+", "+this.inBrowserElement.to_string()+", ";
-			query += this.sameSite.to_string()+")\n\n";
+			query += this.sameSite.to_string()+");\n";
 			return query;
 		}
 
