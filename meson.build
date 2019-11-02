@@ -36,7 +36,6 @@ cookiejar_src = [
 	'src/main.vala',
 	'src/firefox.vala',
 	'src/cookie.vala',
-	'src/importer.vala',
 	'src/browser.vala',
 	'src/firefox.vala',
 	'src/profile.vala',

@@ -19,7 +19,6 @@ Dependencies:
 ```
 git clone git@github.com:excurs0r/cookiejar.git
 cd cookiejar
-mkdir build
 meson build
 cd build
 ninja

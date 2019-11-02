@@ -68,25 +68,7 @@ namespace Cookiejar.Firefox {
 		public List<Cookie> get_cookies() {
 			return this.sqlite_query("select * from moz_cookies");
 		}
-
-		public List<Cookie> find(Cookie c) {
-			string query = "select * from moz_cookies where baseDomain = \""+c.baseDomain+"\" AND ";
-			if(c.name != "") {
-				query += "name LIKE \"%"+c.name+"%\" AND ";
-			}
-			if(c.host != "") {
-				query += "host LIKE \"%"+c.host+"%\" AND ";
-			}
-			if(c.path != "") {
-				query += "path LIKE \"%"+c.path+"%\" AND ";
-			}
-			if(c.originAttributes != "") {
-				query += "originAttributes LIKE \"%"+c.originAttributes+"%\" AND ";
-			}
-			query = query.substring(0, query.length-4);
-			return this.sqlite_query(query);
-		}
-
+		
 		public List<Cookie> search(string search) {
 			string query = "select * from moz_cookies where ";
 			query += "baseDomain LIKE \"%"+search+"%\" OR ";
