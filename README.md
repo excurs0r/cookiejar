@@ -42,8 +42,19 @@ Exporting into sql file: `./cookiejar export netflix > netflix.sql`
 And import it: `sqlite3 ~/.mozilla/firefox/[profile]/cookies.sqlite < netflix.sql`
 
 MAGIC \o/
-
-
+```
+➜  build git:(master) sqlite3 ~/.mozilla/firefox/profile/cookies.sqlite < netflix.sql
+Error: near line 1: UNIQUE constraint failed: moz_cookies.id
+Error: near line 4: UNIQUE constraint failed: moz_cookies.id
+Error: near line 7: UNIQUE constraint failed: moz_cookies.id
+Error: near line 13: UNIQUE constraint failed: moz_cookies.id
+Error: near line 16: UNIQUE constraint failed: moz_cookies.id
+Error: near line 19: UNIQUE constraint failed: moz_cookies.id
+Error: near line 25: UNIQUE constraint failed: moz_cookies.id
+➜  build git:(master) ./cookiejar delete netflix
+Deleted 15 cookies
+➜  build git:(master) sqlite3 ~/.mozilla/firefox/h1plaa1m.default-1558295120780/cookies.sqlite < netflix.sql
+```
 
 
 
